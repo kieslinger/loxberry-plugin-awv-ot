@@ -8,7 +8,7 @@ $empty_lines = 0;
 $trashs = array();
 
 # Datum darf leer sein
-if(empty($_GET['jahr'])) {
+if(!isset($_GET['jahr'])) {
 	$_GET['jahr'] = date('Y');
 }
 
@@ -17,7 +17,7 @@ $init_jahr = max($_GET['jahr']+1, date('Y', strtotime("+1 year")));
 define('date_init', "31.12.$init_jahr");
 
 # Übergaben prüfen
-if(empty($_GET['ort']) or empty($_GET['str']) or empty($_GET['nr'])) {
+if(!isset($_GET['ort']) or !isset($_GET['str']) or !isset($_GET['nr'])) {
 	die("Parameter is missing!");
 }
 # Umlaute in ISO-8859-1 wandeln
@@ -46,7 +46,7 @@ LOGDEB("Postfields:$post_fields");
 # Anfrage an AWV-OT stellen
 LOGINF("Getting data from www.awv-ot.de");
 $curl = post_curl($post_fields);
-LOGDEB("Request received with code: ".curl_getinfo($ch, CURLINFO_HTTP_CODE));
+LOGDEB("Request received with code: ".$curl['http_code']);
 
 if($curl['http_code'] != "200") {
 	# Fehlermeldung erzeugen
@@ -57,6 +57,7 @@ if($curl['http_code'] != "200") {
 } else {
 	# Inhalt komprimieren
 	$content = substr($curl['result'], strpos($curl['result'], "<div id=\"Daten\""));
+	$content = substr($content, 0, strpos($content, "</div>"));
 
 	# Neues DOMDocument-Objekt instanzieren
 	$doc = new DOMDocument; 
@@ -173,6 +174,7 @@ function convert_table($table, $id) {
 	# Vier Elemente weiter sind die Daten	
 	$dates_str = trim($table[$id+4]->nodeValue);
 	$dates = array_filter(explode(" ", $dates_str));
+	$error = 0;
 	
 	if(empty($dates)) {
 		# Kein Datum hinterlegt

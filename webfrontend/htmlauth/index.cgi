@@ -51,7 +51,7 @@ my $template = HTML::Template->new(
   
 
 # Sprachdatei laden
-my %L = LoxBerry::Web::readlanguage($template, "language.ini");
+my %L = LoxBerry::System::readlanguage($template, "language.ini");
 
 ##########################################################################
 # Process form data

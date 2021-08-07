@@ -6,21 +6,21 @@ require_once "loxberry_system.php";
 $cfg = new Config_Lite("$lbpconfigdir/pluginconfig.cfg");
 
 // config data
-$config_ort = $cfg['MAIN']['ORT'];
-$config_str = $cfg['MAIN']['STR'];
-$config_nr  = $cfg['MAIN']['NR'];
+$config_ort = @$cfg['MAIN']['ORT'];
+$config_str = @$cfg['MAIN']['STR'];
+$config_nr  = @$cfg['MAIN']['NR'];
 
-$config_miniserver = $cfg['MAIN']['MINISERVER'];
-$config_http_send = $cfg['MAIN']['HTTPSEND'];
+$config_miniserver = @$cfg['MAIN']['MINISERVER'];
+$config_http_send = @$cfg['MAIN']['HTTPSEND'];
 
 // send http?
 $found = false;
 if($config_http_send == 1) {	
 	$miniservers = LBSystem::get_miniservers();
-	foreach ($miniservers as $i=>$miniserver) {		
+	foreach ($miniservers as $index => $miniserver) {		
 		if($miniserver['Name'] == $config_miniserver) {
-			$miniserver_no = $i;
-			if($miniserver['PreferHttps'] == 1) {
+			$miniserver_no = $index;
+			if(@$miniserver['PreferHttps'] == 1) {
 				LOGDEB("sending encrypted in https-Mode");
 				$response_endpoint = "https://";
 				$miniserver_port = $miniserver['PortHttps'];	
