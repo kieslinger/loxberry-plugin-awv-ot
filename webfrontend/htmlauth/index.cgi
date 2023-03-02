@@ -63,6 +63,8 @@ if ($cgi->param("save")) {
 	
 my $MINISERVER = %pcfg{'MAIN.MINISERVER'};
 my $HTTPSEND = %pcfg{'MAIN.HTTPSEND'};
+my $MQTTSEND = %pcfg{'MAIN.MQTTSEND'};
+my $MQTT_TOPIC = %pcfg{'MAIN.MQTT_TOPIC'};
 
 ##########################################################################
 # Fill Miniserver selection dropdown
@@ -94,6 +96,14 @@ $template->param( LOGDATEI => "/admin/system/tools/logfile.cgi?logfile=$lbplogdi
 	$template->param( HTTPSENDYES => "");
 	$template->param( HTTPSENDNO => "selected=selected");
 }
+ if ($MQTTSEND == 1) {
+	$template->param( MQTTSENDYES => "selected=selected");
+	$template->param( MQTTSENDNO => "");
+} else {
+	$template->param( MQTTSENDYES => "");
+	$template->param( MQTTSENDNO => "selected=selected");
+}
+$template->param( MQTT_TOPIC => $MQTT_TOPIC);
   
 # Nun wird das Template ausgegeben.
 print $template->output();
@@ -115,17 +125,24 @@ sub save
 	LOGDEB "---------- Setting: Start Save ------------";
 	
 	if ($R::MINISERVER ne "") {
-			$pcfg{'MAIN.MINISERVER'} = $R::MINISERVER;
-			# tied(%pcfg)->write();
-		}
+		LOGDEB "Miniserver: $R::MINISERVER";
+		$pcfg{'MAIN.MINISERVER'} = $R::MINISERVER;
+	}
 	if ($R::HTTPSEND == "1") {
-			#LOGDEB "HTTP Send: $R::HTTP_TEXT_Send";
-			$pcfg{'MAIN.HTTPSEND'} = "1";
-			# tied(%pcfg)->write();
+		$pcfg{'MAIN.HTTPSEND'} = "1";
 	} else{
-			#LOGDEB "HTTP Send: $R::HTTP_TEXT_Send";
-			$pcfg{'MAIN.HTTPSEND'} = "0";
-			# tied(%pcfg)->write();
+		$pcfg{'MAIN.HTTPSEND'} = "0";
+	}
+	LOGDEB "HTTPSEND: $R::HTTPSEND";
+	if ($R::MQTTSEND == "1") {
+		$pcfg{'MAIN.MQTTSEND'} = "1";
+	} else{
+		$pcfg{'MAIN.MQTTSEND'} = "0";
+	}
+	LOGDEB "MQTTSEND: $R::MQTTSEND";
+	if ($R::MQTT_TOPIC ne "") {
+		LOGDEB "MQTT Topic: $R::MQTT_TOPIC";
+		$pcfg{'MAIN.MQTT_TOPIC'} = $R::MQTT_TOPIC;
 	}
 		
 	tied(%pcfg)->write();

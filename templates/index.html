@@ -1,28 +1,82 @@
 <h2>Settings AWV-OT</h2>
-<div class="form-group">
-	<table class="formtable" border="0" width="700">
-		<tr>
-			<td width="200" valign=top>
-				<b><TMPL_VAR BASIC.AWV-OT_GET></b>
-			</td>
-			<td colspan=2>
-				<font size="-1"><b><TMPL_VAR BASIC.AWV-OT_HGET></b></font><br/>
-				<font size="-1"><a href="<TMPL_VAR NAME=WEBSITE_GET>" target=_blank"><TMPL_VAR NAME=WEBSITE_GET></a></font><br/><br/>
-				<font size="-1"><TMPL_VAR BASIC.AWV-OT_IGET></font>
-			</td>
-		</tr>
-	</table>
-	<br/><hr><br/>
-	<table class="formtable" border="0" width="700">
-		<tr>
-			<td width="200">
-				&nbsp;
-			</td>
-			<td colspan=2>
-					<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" 
-					href="<TMPL_VAR NAME=LOGDATEI>" 
-					target="_blank"><TMPL_VAR BASIC.AWV-OT_LOG></a>
-			</td>
-		</tr>		
-	</table>
-</div>
+<form method="post" data-ajax="false" name="main_form" id="main_form" action="index.cgi">
+	<input type="hidden" name="save" value="save">
+		<div class="form-group">
+			<table class="formtable" border="0" width="700">
+				<tr>
+					<td width="200">
+						<label id="labelmsenabled"><b><TMPL_VAR BASIC.AWV-OT_MQTT></b></label>
+					</td>
+					<td colspan=2">
+						<select name="MQTTSEND" data-role="flipswitch">
+							<option <TMPL_VAR NAME=MQTTSENDNO> value="0"><TMPL_VAR BASIC.AWV-OT_MQTT_OFF></option>
+							<option <TMPL_VAR NAME=MQTTSENDYES> value="1"><TMPL_VAR BASIC.AWV-OT_MQTT_ON></option>
+						</select>
+						<font size="-1"><TMPL_VAR BASIC.AWV-OT_HMQTT></font>
+					</td>
+				</tr>
+				<tr>				
+					<td width="200">
+						&nbsp;
+					</td>
+					<td colspan=2>
+						<input name="MQTT_TOPIC" type="text" class="textfield"
+							value="<TMPL_VAR NAME=MQTT_TOPIC>" placeholder="<TMPL_VAR BASIC.AWV-OT_TOPIC>"/>
+						&shy;
+						<font size="-1"><TMPL_VAR BASIC.AWV-OT_HTOPIC></font>
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td width="200">
+						<label id="labelmsenabled"><b><TMPL_VAR BASIC.AWV-OT_HTML></b></label>
+					</td>
+					<td colspan=2">
+						<select name="HTTPSEND" data-role="flipswitch">
+							<option <TMPL_VAR NAME=HTTPSENDNO> value="0"><TMPL_VAR BASIC.AWV-OT_HTML_OFF></option>
+							<option <TMPL_VAR NAME=HTTPSENDYES> value="1"><TMPL_VAR BASIC.AWV-OT_HTML_ON></option>
+						</select>
+						<font size="-1"><TMPL_VAR BASIC.AWV-OT_HHTML></font>
+					</td>
+				</tr>
+				<tr>
+					<td width="200">
+						&nbsp;
+					</td>
+					<td colspan=2">
+						<select name="MINISERVER" data-mini="true" onchange="selMS(this);">
+							<TMPL_VAR NAME=LOXLIST>
+						</select>
+						<font size="-1"><TMPL_VAR BASIC.AWV-OT_HMINISERVER></font><br/><br/>
+						<font size="-1"><TMPL_VAR BASIC.AWV-OT_VINAME></font>
+					</td>
+				</tr>
+				<tr><td>&nbsp;</td></tr>
+				<tr>
+					<td width="200">
+						&nbsp;
+					</td>
+					<td colspan=2>
+							<a id="btncancel" data-role="button" data-inline="true" data-mini="true" data-icon="delete" href="./index.cgi?form=1"><TMPL_VAR BASIC.AWV-OT_CANCEL></a>
+							<button type="submit" form="main_form" id="do" data-role="button" data-inline="true" data-mini="true" data-icon="check"><TMPL_VAR BASIC.AWV-OT_SAVE></button>
+							<a id="button" data-icon="info" data-role="button" data-inline="true" data-mini="true" 
+							href="<TMPL_VAR NAME=LOGDATEI>" 
+							target="_blank"><TMPL_VAR BASIC.AWV-OT_LOG></a>
+					</td>
+				</tr>		
+		</table>
+		<br/><hr><br/>
+		<table class="formtable" border="0" width="700">
+				<tr>
+					<td width="200" valign=top>
+						<b><TMPL_VAR BASIC.AWV-OT_GET></b>
+					</td>
+					<td colspan=2>
+						<font size="-1"><b><TMPL_VAR BASIC.AWV-OT_HGET></b></font><br/>
+						<font size="-1"><a href="<TMPL_VAR NAME=WEBSITE_GET>" target=_blank"><TMPL_VAR NAME=WEBSITE_GET></a></font><br/>
+						<font size="-1"><TMPL_VAR BASIC.AWV-OT_IGET></font><br/><br/>
+					</td>
+				</tr>	
+		</table>
+	</div>
+</form>
