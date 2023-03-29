@@ -39,6 +39,7 @@ foreach($contents AS $content) {
 		if($mqtt_activ == true) {
 			// build array
 			$mqtt_values[strtolower($values[0])][strtolower($values[1])] = $values[2];
+			LOGDEB("Building MQTT-Array: \"$values[0]\" \"$values[1]\" value \"$values[2]\"");
 		}
 	}
 }
@@ -46,8 +47,10 @@ foreach($contents AS $content) {
 if($mqtt_activ == true) {
 	// Connect to the MQTT-brocker -> use phpMQTT to minimize loxberry version to 2.0
 	require_once "phpMQTT/phpMQTT.php";
+	LOGDEB("Connecting to MQTT-brocker");
 	$mqtt = new Bluerhinos\phpMQTT($mqttcreds['brokerhost'], $mqttcreds['brokerport'],$mqttcreds['client_id']);
 	if( $mqtt->connect(true, NULL, $mqttcreds['brokeruser'], $mqttcreds['brokerpass'] ) ) {
+		LOGINF("Successfully connected to MQTT-brocker");
 		// send mqtt data
 		foreach($mqtt_values AS $mqtt_sub => $mqtt_value) {
 			// build a topic
@@ -55,10 +58,12 @@ if($mqtt_activ == true) {
 			// encode the data to json
 			$mqtt_json_value = json_encode($mqtt_value);	
 			// publish json data
-			LOGDEB("Publish: \"$mqtt_topic\" value \"$mqtt_json_value\"");
+			LOGINF("Publish: \"$mqtt_topic\" value \"$mqtt_json_value\"");
 			$mqtt->publish( $mqtt_topic, $mqtt_json_value );
 		}
 		$mqtt->close();
+	} else {
+		LOGWARN("Connection to MQTT-brocker failed!");
 	}
 }
 ?>

@@ -4,17 +4,17 @@ require_once "loxberry_system.php";
 require_once "loxberry_io.php";
 
 // load configfile
-$cfg = new Config_Lite("$lbpconfigdir/pluginconfig.cfg");
+$plugin_cfg = new Config_Lite("$lbpconfigdir/pluginconfig.cfg");
 
 // config data
-$config_ort = @$cfg['MAIN']['ORT'];
-$config_str = @$cfg['MAIN']['STR'];
-$config_nr  = @$cfg['MAIN']['NR'];
+$config_ort = @$plugin_cfg['MAIN']['ORT'];
+$config_str = @$plugin_cfg['MAIN']['STR'];
+$config_nr  = @$plugin_cfg['MAIN']['NR'];
 
-$config_miniserver = @$cfg['MAIN']['MINISERVER'];
-$config_http_send  = @$cfg['MAIN']['HTTPSEND'];
-$config_mqtt_send  = @$cfg['MAIN']['MQTTSEND'];
-$config_mqtt_topic = @$cfg['MAIN']['MQTT_TOPIC'];
+$config_miniserver = @$plugin_cfg['MAIN']['MINISERVER'];
+$config_http_send  = @$plugin_cfg['MAIN']['HTTPSEND'];
+$config_mqtt_send  = @$plugin_cfg['MAIN']['MQTTSEND'];
+$config_mqtt_topic = @$plugin_cfg['MAIN']['MQTT_TOPIC'];
 
 $config_send = false;
 
